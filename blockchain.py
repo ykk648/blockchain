@@ -20,9 +20,9 @@ class Blockchain:
 
     def register_node(self, address: str) -> None:
         """
-        Add a new node to the list of nodes
+        注册一个新的节点
 
-        :param address: Address of node. Eg. 'http://192.168.0.5:5000'
+        :参数address: 节点地址. 例如， 'http://192.168.0.5:5000'
         """
 
         parsed_url = urlparse(address)
@@ -30,10 +30,10 @@ class Blockchain:
 
     def valid_chain(self, chain: List[Dict[str, Any]]) -> bool:
         """
-        Determine if a given blockchain is valid
+        验证一个链是否有效
 
-        :param chain: A blockchain
-        :return: True if valid, False if not
+        :参数chain: 一个链
+        :return: True有效, False无效
         """
 
         last_block = chain[0]
@@ -44,11 +44,11 @@ class Blockchain:
             print(f'{last_block}')
             print(f'{block}')
             print("\n-----------\n")
-            # Check that the hash of the block is correct
+            # 检查该块的hash是否正确
             if block['previous_hash'] != self.hash(last_block):
                 return False
 
-            # Check that the Proof of Work is correct
+            # 检查工作量证明是否正确
             if not self.valid_proof(last_block['proof'], block['proof']):
                 return False
 
@@ -68,10 +68,10 @@ class Blockchain:
         neighbours = self.nodes
         new_chain = None
 
-        # We're only looking for chains longer than ours
+        # 只寻找比我们长的链
         max_length = len(self.chain)
 
-        # Grab and verify the chains from all the nodes in our network
+        # 获取并和我们网络的所有节点比较该链
         for node in neighbours:
             response = requests.get(f'http://{node}/chain')
 
@@ -79,12 +79,12 @@ class Blockchain:
                 length = response.json()['length']
                 chain = response.json()['chain']
 
-                # Check if the length is longer and the chain is valid
+                # 检查该链是否更长并且有效
                 if length > max_length and self.valid_chain(chain):
                     max_length = length
                     new_chain = chain
 
-        # Replace our chain if we discovered a new, valid chain longer than ours
+        # 如果发现一个新的，更长的链，用其替代我们的链
         if new_chain:
             self.chain = new_chain
             return True
@@ -95,9 +95,9 @@ class Blockchain:
         """
         生成新块
 
-        :param proof: The proof given by the Proof of Work algorithm
-        :param previous_hash: Hash of previous Block
-        :return: New Block
+        :参数proof: 工作量证明算法给出的证明
+        :参数previous_hash: 上一个块的哈希值
+        :return: 一个新块
         """
 
         block = {
@@ -108,7 +108,7 @@ class Blockchain:
             'previous_hash': previous_hash or self.hash(self.chain[-1]),
         }
 
-        # Reset the current list of transactions
+        # 重置当前的交易列表
         self.current_transactions = []
 
         self.chain.append(block)
@@ -143,7 +143,7 @@ class Blockchain:
         :param block: Block
         """
 
-        # We must make sure that the Dictionary is Ordered, or we'll have inconsistent hashes
+        # 我们必须确定Dictionary是有序的，不然哈希值会不一致
         block_string = json.dumps(block, sort_keys=True).encode()
         return hashlib.sha256(block_string).hexdigest()
 
@@ -175,19 +175,19 @@ class Blockchain:
         return guess_hash[:4] == "0000"
 
 
-# Instantiate the Node
+# 实例该节点
 app = Flask(__name__)
 
-# Generate a globally unique address for this node
+# 为节点生成一个全局唯一地址
 node_identifier = str(uuid4()).replace('-', '')
 
-# Instantiate the Blockchain
+# 实例该区块链
 blockchain = Blockchain()
 
 
 @app.route('/mine', methods=['GET'])
 def mine():
-    # We run the proof of work algorithm to get the next proof...
+    # 使用工作量证明算法得到下一个证明...
     last_block = blockchain.last_block
     last_proof = last_block['proof']
     proof = blockchain.proof_of_work(last_proof)
@@ -200,7 +200,7 @@ def mine():
         amount=1,
     )
 
-    # Forge the new Block by adding it to the chain
+    # 通过将其加入链来创建一个新块
     block = blockchain.new_block(proof, None)
 
     response = {
@@ -222,7 +222,7 @@ def new_transaction():
     if not all(k in values for k in required):
         return 'Missing values', 400
 
-    # Create a new Transaction
+    # 创建新的交易
     index = blockchain.new_transaction(values['sender'], values['recipient'], values['amount'])
 
     response = {'message': f'Transaction will be added to Block {index}'}
