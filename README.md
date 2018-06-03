@@ -1,3 +1,30 @@
+
+# 针对区块链app应用的改进
+
+改进了block属性，以与记忆app（一款基于区块链的心情分享、漂流瓶社交应用）配合。
+
+```
+    def new_block(self, proof: int, my_message: str, previous_hash: Optional[str]) -> Dict[str, Any]:
+        """
+        生成新块
+
+        :参数proof: 工作量证明算法给出的证明
+        :参数previous_hash: 上一个块的哈希值
+        :return: 一个新块
+        """
+
+        block = {
+            'index': len(self.chain) + 1,
+            'my_message': my_message,
+            'timestamp': time(),
+            'transactions': self.current_transactions,
+            'proof': proof,
+            'previous_hash': previous_hash or self.hash(self.chain[-1]),
+        }
+```
+
+# 以下是原作者的README
+
 # 用Python从零开始创建区块链
 
 本文是博客：[用Python从零开始创建区块链](http://learnblockchain.cn/2017/10/27/build_blockchain_by_python/) 的源码. 
