@@ -1,6 +1,8 @@
 
 # 针对区块链app应用的改进
 
+## 增加block属性
+
 改进了block属性，以与记忆app（一款基于区块链的心情分享、漂流瓶社交应用）配合。
 
 ```
@@ -22,6 +24,17 @@
             'previous_hash': previous_hash or self.hash(self.chain[-1]),
         }
 ```
+
+## 加入web端，与flask交互
+
+php实现 需要搭建apache+php环境。
+
+## post_test
+
+用于模拟post，发送挖矿请求。
+
+--------
+
 
 # 以下是原作者的README
 
