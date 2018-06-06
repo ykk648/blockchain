@@ -1,6 +1,8 @@
 
 # 针对区块链app应用的改进
 
+APP地址：https://github.com/cloisonne/Drifting
+
 ## 增加block属性
 
 改进了block属性，以与记忆app（一款基于区块链的心情分享、漂流瓶社交应用）配合。
