@@ -31,6 +31,12 @@ APP地址：https://github.com/cloisonne/Drifting
 
 php实现 需要搭建apache+php环境。
 
+## 修改了挖矿等方法的method
+
+```py
+@app.route('/mine', methods=['GET','POST'])
+```
+
 ## post_test
 
 用于模拟post，发送挖矿请求。
