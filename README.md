@@ -1,7 +1,7 @@
 
 # 针对区块链app应用的改进
 
-APP地址：https://github.com/cloisonne/Drifting
+APP地址：https://github.com/ykk648/Drifting
 
 ## 增加block属性
 
@@ -46,7 +46,7 @@ php实现 需要搭建apache+php环境。
 
 # 以下是原作者的README
 
-# 用Python从零开始创建区块链
+## 用Python从零开始创建区块链
 
 本文是博客：[用Python从零开始创建区块链](http://learnblockchain.cn/2017/10/27/build_blockchain_by_python/) 的源码. 
 翻译自[Building a Blockchain](https://medium.com/p/117428612f46)
